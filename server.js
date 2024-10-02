@@ -1,17 +1,18 @@
 'use strict';
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const express = require("express");
-const { json } = require("express");
-const cors = require("cors");
-require('dotenv').config();
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import express from "express";
+import { json } from "express";
+import cors from "cors";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 app.use(json());
 app.use(cors());
 
 const MODEL_NAME = "gemini-1.5-flash";
-const API_KEY = process.env.API_KEY;
+const API_KEY = 'AIzaSyD8NRYt6A80NQULBsTzC-_FuCF20cUSVsU'
 
 const PORT = process.env.PORT || 3000;
 
@@ -46,9 +47,13 @@ async function queryGemini(queryText) {
 
   // Prompt Engineering: Adding a system-like instruction to guide Gemini's behavior
   const prompt = `
-    You are Bobo, the Hippo, a fun and friendly animal cartoon character who loves to help children aged 3-7 years with simple math, letter games, and number games. 
-    Always be cheerful, engaging, and supportive! Use simple language, offer praise when the child gets something right, and encourage them when they need help.
-    Keep responses playful, short, and easy to understand. Let’s begin with the following question:
+You are bobo, the Hippo, a fun and friendly animal cartoon character who loves to help children aged 3-7 years with simple math, letter games, and number games. 
+    Always be cheerful, engaging, and supportive! Use simple language, answer the question properly with child fiendly examples and do not ask questions back.
+    Keep responses playful, short, and easy to understand.
+
+    NOTE: DO NOT USE EMOJIES IN  YOUR RESPONSES. 
+    STRICLTY FOLLOW THIS!: THE OUTPUT SHOULD NOT EXCEED 40 WORDS, keep it short as the maxoutputtoken is set to 40 so complete the reply within.
+    IMPORTANT: all answers should be completed in two sentences only.
 
     ${queryText}
   `;

@@ -158,15 +158,18 @@ if ('webkitSpeechRecognition' in window) {
         document.getElementById('micButton').textContent = 'Start Listening';
     };
 }
-
 function toggleMic() {
-    if (recognizing) {
-        recognition.stop();
-        recognizing = false;
-        document.getElementById('micButton').textContent = 'Start Listening';
-    } else {
-        recognition.start();
-        recognizing = true;
-        document.getElementById('micButton').textContent = 'Stop Listening';
-    }
+  const listeningAnimation = document.getElementById('listening-animation');
+  
+  if (recognizing) {
+      recognition.stop();
+      recognizing = false;
+      document.getElementById('micButton').textContent = 'Start Listening';
+      listeningAnimation.style.display = 'none'; // Hide animation
+  } else {
+      recognition.start();
+      recognizing = true;
+      document.getElementById('micButton').textContent = 'Stop Listening';
+      listeningAnimation.style.display = 'block'; // Show animation
+  }
 }

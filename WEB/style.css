@@ -227,3 +227,26 @@ button:hover {
 
     filter: contrast(150%) brightness(100%);
 }
+
+
+/* Pulsing dot animation */
+.dot-pulse {
+    width: 10px;
+    height: 10px;
+    background-color: #3498db;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

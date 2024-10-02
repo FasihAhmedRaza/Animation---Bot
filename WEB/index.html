@@ -34,13 +34,19 @@
         <!-- Chatbot message area -->
         <div class="chat-area">
             <button id="micButton" onclick="toggleMic()" style="padding: 10px;">Start Listening</button>
-            <button id="micButton" onclick="toggleMic()" style="padding: 10px;" disabled>Mute Mic</button>
-            <button id="speakerButton" onclick="toggleSpeaker()" style="padding: 10px;" disabled>Mute Speaker</button>
-            <div id="chat-output"></div> 
+            <!-- <button id="speakerButton" onclick="toggleSpeaker()" style="padding: 10px;" disabled>Mute Speaker</button> -->
+            
+            <!-- Listening animation container -->
+            <div id="listening-animation" style="display: none;">
+                <div class="dot-pulse"></div>
+                <span>Listening...</span>
+            </div>
+        
+            <div id="chat-output"></div>
             <input type="text" id="chat-input" placeholder="Type a message..." />
             <button id="send-button"><i class="fas fa-paper-plane"></i>Send</button>
-
         </div>
+        
     </div>
 
     <!-- Dialogflow Messenger Integration -->
