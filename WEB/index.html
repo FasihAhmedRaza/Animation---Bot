@@ -10,6 +10,7 @@
         #video-character {
             width: 100%;
             height: auto; /* Ensures full width with aspect ratio maintained */
+            filter: contrast(150%) brightness(100%);
         }
 
         .chatbot-container {
@@ -20,6 +21,100 @@
         .chat-area {
             margin-top: 10px;
         }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+    
+            background-color: rgba(0, 0, 0, 0.6); /* Black background with transparency */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+     
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+   
+            text-align: center;
+
+
+            background-color: #fff;
+            border-radius: 20px;
+
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.5s ease;
+        }
+        @keyframes modalFadeIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: #000;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        p, ul {
+            font-family: 'Arial', sans-serif;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin: 10px 0;
+            padding-left: 25px;
+            text-align: left;
+            position: relative;
+        }
+
+        ul li:before {
+            content: '\f058'; /* Font Awesome check icon */
+            font-family: 'FontAwesome';
+            color: #4CAF50;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 18px;
+        }
+
+        /* Separate button style for "Show Instructions" */
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        button:focus {
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -27,7 +122,7 @@
     <div class="chatbot-container">
         <!-- Video animation container -->
         <video id="video-character" preload="auto" muted>
-            <source src="aido.mp4" type="video/mp4">
+
             Your browser does not support HTML5 video.
         </video>
 
@@ -35,6 +130,10 @@
         <div class="chat-area">
             <button id="micButton" onclick="toggleMic()" style="padding: 10px;">Start Listening</button>
             <button id="welcome-button" style="padding: 10px;" >Let's Start!</button>
+<<<<<<< HEAD
+            <button id="toggle-chat-button" style="padding: 10px;" onclick="toggleChatOutput()">Hide Text</button>
+=======
+>>>>>>> 1d7c3be5f6728dc91b0feefa063eef692c59aadf
 
 
             
@@ -50,12 +149,50 @@
             <div id="chat-output"></div>
             <input type="text" id="chat-input" placeholder="Type a message..." />
             <button id="send-button"><i class="fas fa-paper-plane"></i>Send</button>
+            <button id="instruction-button" class="instruction-button" onclick="openModal()">Show Instructions</button>
+
         </div>
         
     </div>
 
-    <!-- Dialogflow Messenger Integration -->
 
+    <div id="instructionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>Instructions</h2>
+            <p>Welcome ! Here’s how to use it:</p>
+            <ul>
+                <li>Click the "Start Listening" button to activate voice input.</li>
+                <li>Type your message in the chat input box and click "Send" to chat.</li>
+                <li>Click "Let's Start" to initiate the chatbot.</li>
+                <li>To hide the chatbot's text output, use the "Hide Text" button.</li>
+                <li>Try speaking small sentences rather than saying single words like 'Yes' or 'Ok'</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Dialogflow Messenger Integration -->
+    <script>
+        // Get the modal
+        var modal = document.getElementById('instructionModal');
+
+        // Function to open the modal
+        function openModal() {
+            modal.style.display = 'block';
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // Close the modal if the user clicks outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

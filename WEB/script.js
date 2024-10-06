@@ -223,7 +223,13 @@ function toggleMic() {
             console.log('No speech detected. Restarting...');
             if (recognizing) {
                 recognition.stop();  // Ensure recognition is stopped first
+<<<<<<< HEAD
+                recognition.onend = () => {  // Wait for the stop event before starting again
+                    recognition.start(); // Restart if no speech is detected and it's not already running
+                };
+=======
                 recognition.start(); // Restart if no speech is detected and it's not already running
+>>>>>>> 1d7c3be5f6728dc91b0feefa063eef692c59aadf
             }
         } else if (event.error === 'not-allowed') {
             console.error('Permission to use microphone not granted.');
@@ -246,6 +252,10 @@ function toggleMic() {
         }
     };
     
+<<<<<<< HEAD
+    
+=======
+>>>>>>> 1d7c3be5f6728dc91b0feefa063eef692c59aadf
 }
 
 
