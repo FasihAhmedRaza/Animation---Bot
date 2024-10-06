@@ -54,7 +54,7 @@ async function queryGemini(queryText, chatHistory) {
   };
 
   // Construct chat history prompt
-  let historyString = chatHistory.map((chat) => `User: ${chat.user}\nBot: ${chat.bot}`).join("\n");
+  let historyString = chatHistory.map((chat) => `User: ${chat.user}\n :  ${chat.bot}`).join("\n");
   historyString += `\nUser: ${queryText}`;
 
   // Prompt Engineering
