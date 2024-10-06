@@ -1,3 +1,4 @@
+
 // Flag to track if chatbot is speaking
 let isSpeaking = false;
 let interruptDetected = false;
@@ -81,6 +82,8 @@ async function chatbotReply(userMessage) {
   newMessage.textContent = "😀 " + text;
   chatOutput.appendChild(newMessage);
 
+  resetMic();
+
   // Use speech synthesis for the chatbot's voice
   let utterance = new SpeechSynthesisUtterance(text);
 
@@ -104,6 +107,19 @@ async function chatbotReply(userMessage) {
   };
 
   speechSynthesis.speak(utterance);
+}
+
+function resetMic() {
+    if (recognizing) {
+        recognition.stop(); // Stop the mic
+        recognizing = false; // Set recognizing to false
+    }
+    setTimeout(() => {
+        recognition.start(); // Restart the mic
+        recognizing = true; // Set recognizing to true
+        console.log("recognition started again")
+        document.getElementById('micButton').textContent = 'Stop Listening'; // Update button text
+    }, 500); // Slight delay before restarting the mic
 }
 
 // Function to handle user interruptions
@@ -199,33 +215,39 @@ function toggleMic() {
     }
 
     // Handle recognition end (restart unless stopped manually)
-    recognition.onend = () => {
-        if (recognizing) {
-            console.log('Recognition ended, restarting...');
-            recognition.start(); // Automatically restart if still listening
-        } else {
-            console.log('Recognition stopped manually.');
-        }
-    };
+
 
     // Handle recognition errors
     recognition.onerror = (event) => {
         if (event.error === 'no-speech') {
             console.log('No speech detected. Restarting...');
-            if (recognizing) recognition.start(); // Restart if no speech is detected
+            if (recognizing) {
+                recognition.stop();  // Ensure recognition is stopped first
+                recognition.start(); // Restart if no speech is detected and it's not already running
+            }
         } else if (event.error === 'not-allowed') {
             console.error('Permission to use microphone not granted.');
+            recognition.stop();  // Stop recognition when mic is not allowed
+            recognizing = false; // Update recognizing state
+            document.getElementById('micButton').textContent = 'Start Listening';
+            listeningAnimation.style.display = 'none'; // Hide the animation
         } else if (event.error === 'network') {
             console.error('Network error. Please check your connection.');
+            recognition.stop();  // Stop recognition on network error
+            recognizing = false; // Update recognizing state
+            document.getElementById('micButton').textContent = 'Start Listening';
+            listeningAnimation.style.display = 'none'; // Hide the animation
         } else {
             console.error('Speech recognition error:', event.error);
-            recognition.stop();
-            recognizing = false;
+            recognition.stop();  // Stop recognition in case of other errors
+            recognizing = false; // Update recognizing state
             document.getElementById('micButton').textContent = 'Start Listening';
-            listeningAnimation.style.display = 'none';
+            listeningAnimation.style.display = 'none'; // Hide the animation
         }
     };
+    
 }
+
 
 
 
@@ -290,3 +312,18 @@ function welcomeUser() {
 
 // Add event listener to the welcome button
 document.getElementById('welcome-button').addEventListener('click', welcomeUser);
+
+
+function toggleChatOutput() {
+    const chatOutput = document.getElementById('chat-output');
+    const toggleButton = document.getElementById('toggle-chat-button');
+
+    // Check the current display status of chat output
+    if (chatOutput.style.display === 'none') {
+        chatOutput.style.display = 'block'; // Show chat output
+        toggleButton.textContent = 'Hide Text'; // Update button text
+    } else {
+        chatOutput.style.display = 'none'; // Hide chat output
+        toggleButton.textContent = 'View Text'; // Update button text
+    }
+}
